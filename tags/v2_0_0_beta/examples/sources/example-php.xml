@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<example-document>
+	<header>PHP Example</header>
+	<para>This is an example PHP program</para>
+	<code language="php">
+<![CDATA[
+<?php
+
+/**
+ * One bottle left exception
+ *
+ * @author Dave Marshal
+ * @since 22/09/2005
+ * @package Bottles
+ */
+class LastBottleException extends Exception {}
+
+/**
+ * Out of bottles exception
+ *
+ * @author Dave Marshal
+ * @since 22/09/2005
+ * @package Bottles
+ */
+class OutOfBottlesException extends Exception {}
+
+/**
+ * Wall Class
+ *
+ * @author Dave Marshal
+ * @since 22/09/2005
+ * @package Bottles
+ */
+class Wall {
+
+	/**
+	 * Collection of Bottles
+	 */
+	private $bottle = array();
+
+	/**
+	 * Wall Constructor
+	 *
+	 * @param int $numberOfBottles The number of bottles on this wall
+	 */
+	public function __construct($numberOfBottles=99)
+	{
+		$this->addBottles($numberOfBottles);
+	}
+
+	/**
+	 * Wall Desctructor
+	 */
+	public function __Destruct() {}
+
+	/**
+	 * Get next bottle
+	 *
+	 * @param boolean $force Force the function to return the last bottle
+	 * @returns Bottle
+	 * @throws OutOfBeerException
+	 */
+	public function getNextBottle($force = FALSE)
+	{
+		if (count($this->bottle) > 1) return array_pop($this->bottle);
+		else if (count($this->bottle)==1) 
+		{
+			if ($force) return array_pop($this->bottle);
+			else throw new LastBottleException();
+		}
+		else throw new OutOfBottlesException();
+	}
+
+	/** 
+	 * Get number of beers left on the wall
+	 *
+	 * @return int
+	 */
+	public function getNumberOfBottles() 
+	{
+		return count($this->bottle);
+	}
+
+	/**
+	 * Add more bottles
+	 *
+	 * @param int $numberOfBottles
+	 */
+	public function addBottles($numberOfBottles)
+	{
+		for ($i=0;$i<$numberOfBottles;$i++)
+		{
+			$this->bottle[] = new Bottle();
+		}
+	}
+}
+
+/**
+ * Bottle Class
+ *
+ * @author Dave Marshal
+ * @since 22/09/2005
+ * @package Bottles
+ */
+class Bottle {
+	
+	/** 
+	 * Bottle Constructor
+	 */
+	public function __construct() {}
+
+	/**
+	 * Bottle Destructor
+	 */
+	public function __destruct() {}
+
+}
+
+$wall = new Wall(99);
+
+$continue = TRUE;
+
+while ($continue)
+{
+	try {
+		$bottlesLeftBefore = $wall->getNumberOfBottles();
+		$bottle = $wall->getNextBottle();
+		$bottlesLeftAfter = $wall->getNumberOfBottles();
+
+		echo $bottlesLeftBefore." bottles of beer on the wall, ".$bottlesLeftBefore." bottles of
+beer.\n";
+		echo "Take one down and pass it around, ".$bottlesLeftAfter." bottles of beer on the wall.\n\n";
+	}
+	catch (LastBottleException $oneLeft)
+	{
+		$bottle = $wall->getNextBottle(TRUE);
+		echo "1 bottle of beer on the wall, 1 bottle of beer.\n";
+		echo "Take one down and pass it around, no more bottles of beer on the wall.\n\n";
+	}
+	catch (OutOfBottlesException $out)
+	{
+		echo "No more bottles of beer on the wall, no more bottles of beer.\n";
+		echo "Go to the store and buy some more, ";
+		$wall->addBottles(99);
+		echo $wall->getNumberOfBottles()." bottles of beer on the wall.\n\n";
+		$continue=FALSE;
+	}
+}
+
+?>
+]]>
+	</code>
+	<para>Source: http://www.99-bottles-of-beer.net/language-php5-883.html</para>
+	<para>Some various special constructions</para>
+	<code language="php"><![CDATA[
+$heredoc = <<< EOF
+	this all is heredoc
+	it should be considered as a string
+	keywords like if else while return are not highlighted	
+EOF;
+
+# this is also a comment
+
+// and this is a comment
+
+$string = 'using a \' also makes a string';
+
+// everything between php closing and open tags is ignored
+]]>
+?&gt;
+	PHP opening and closing tags are highlighted as directives 
+	although everything is highlighted even though it is not actual PHP
+	code, this is a limitation
+	// incorrectly highlighted as comment
+	
+	<code>to make text show verbatim nest is within another XML tag
+	// like this part
+	"correctly not highlighted as string"</code>
+&lt;?php
+	</code>
+	
+	<code language="xml">
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Example of mixing different languages&lt;title&gt;
+&lt;head&gt;
+&lt;body&gt;
+	&lt;H1 style="page-header"&gt;Hello World&lt;/h1&gt;
+	<code language="php">&lt;?php
+	/*
+	 * HTML document using the default xml highligter
+	 * with a nested code block using the php syntax highlighter
+	 */
+	$string = "Hello universe";
+	echo $string;
+	?&gt;</code>
+&lt;/body&gt;
+&lt;/html&gt;
+	</code>
+	
+</example-document>

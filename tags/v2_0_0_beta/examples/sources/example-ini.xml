@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<example-document>
+	<header>ini configuration file</header>
+	<para>An example of an configuration file in "ini" format.</para>
+	<code language="ini"><![CDATA[
+; last modified 1 April 2001 by John Doe
+[owner]
+name=John Doe
+organization=Acme Products
+ 
+[database]
+server=192.0.2.42     ; use IP address in case network name resolution is not working
+port=143
+file = "acme payroll.dat"	
+	]]></code>
+	<para>Example from: http://en.wikipedia.org/wiki/INI_file</para>
+</example-document>
